@@ -20,11 +20,19 @@ if (cb_obj == ifiberslider) { // update VI widgets + infos for current spectrum
 //    target_info_div.text = targetinfo.data['target_info'][ifiber]
     targ_disp_cds.data['Target ID'] = [ targetinfo.data['targetid'][ifiber] ]
     targ_disp_cds.data['Target class'] = [ targetinfo.data['target_info'][ifiber] ]
-    targ_disp_cds.data['mag_G'] = [ targetinfo.data['mag_G'][ifiber].toFixed(2) ]
-    targ_disp_cds.data['mag_R'] = [ targetinfo.data['mag_R'][ifiber].toFixed(2) ]
-    targ_disp_cds.data['mag_Z'] = [ targetinfo.data['mag_Z'][ifiber].toFixed(2) ]
-    targ_disp_cds.data['mag_W1'] = [ targetinfo.data['mag_W1'][ifiber].toFixed(2) ]
-    targ_disp_cds.data['mag_W2'] = [ targetinfo.data['mag_W2'][ifiber].toFixed(2) ]
+    if (targetinfo.data.hasOwnProperty('mag_W1')) {
+        targ_disp_cds.data['mag_G'] = [ targetinfo.data['mag_G'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_R'] = [ targetinfo.data['mag_R'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_Z'] = [ targetinfo.data['mag_Z'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_W1'] = [ targetinfo.data['mag_W1'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_W2'] = [ targetinfo.data['mag_W2'][ifiber].toFixed(2) ]
+    } else {
+        targ_disp_cds.data['mag_u'] = [ targetinfo.data['mag_u'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_g'] = [ targetinfo.data['mag_g'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_r'] = [ targetinfo.data['mag_r'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_i'] = [ targetinfo.data['mag_i'][ifiber].toFixed(2) ]
+        targ_disp_cds.data['mag_z'] = [ targetinfo.data['mag_z'][ifiber].toFixed(2) ]
+    }
     targ_disp_cds.change.emit()
     if(targetinfo.data['z'] != undefined && zcat_disp_cds != null) {
         zcat_disp_cds.data['SPECTYPE'] = [ targetinfo.data['spectype'][ifiber] ]
@@ -34,7 +42,7 @@ if (cb_obj == ifiberslider) { // update VI widgets + infos for current spectrum
         zcat_disp_cds.data['DeltaChi2'] = [ targetinfo.data['deltachi2'][ifiber].toFixed(1) ]
         zcat_disp_cds.change.emit()
     }
-    
+
     vi_comment_input.value = targetinfo.data['VI_comment'][ifiber]
     vi_name_input.value = (targetinfo.data['VI_scanner'][ifiber]).trim()
     vi_class_input.active = vi_class_labels.indexOf(targetinfo.data['VI_class_flag'][ifiber]) // -1 if nothing
@@ -279,4 +287,3 @@ if (imfig_source) {
     imfig_source.data.txt[0] = imfig_urls[ifiber][2]
     imfig_source.change.emit()
 }
-
